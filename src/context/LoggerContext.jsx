@@ -14,16 +14,16 @@ export const LoggerProvider = ({ children }) => {
     }
   }
 
-  const logger = {
-    info: msg => addLog('log', `[INFO] ${msg}`),
-    warn: msg => addLog('warn', `[WARN] ${msg}`),
-    error: msg => addLog('error', `[ERROR] ${msg}`),
-    force: msg => addLog('force', `[FORCE] ${msg}`),
-    env: detectEnv()
-  }
+  const log = (...args) => addLog('log', args.join(' '))
+  
+  log.info = msg => addLog('log', `[INFO] ${msg}`)
+  log.warn = msg => addLog('warn', `[WARN] ${msg}`)
+  log.error = msg => addLog('error', `[ERROR] ${msg}`)
+  log.force = msg => addLog('force', `[FORCE] ${msg}`)
+  log.env = detectEnv()
 
   return (
-    <LoggerContext.Provider value={{ logs, logger }}>
+    <LoggerContext.Provider value={{ logs, log }}>
       {children}
     </LoggerContext.Provider>
   )

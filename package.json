@@ -1,23 +1,57 @@
 {
-  "name": "logger",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@darelmasis/logger",
+  "private": false,
+  "version": "0.0.1",
+  "description": "Librería React ligera para logging visual en desarrollo con panel flotante",
   "type": "module",
+  "main": "./dist/logger.cjs",
+  "module": "./dist/logger.js",
+  "exports": {
+    ".": {
+      "import": "./dist/logger.js",
+      "require": "./dist/logger.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "react",
+    "logger",
+    "logging",
+    "debug",
+    "development",
+    "console",
+    "devtools"
+  ],
+  "author": "Darel Masis <darrelmasis@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/darelmasis/logger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/darelmasis/logger/issues"
+  },
+  "homepage": "https://github.com/darelmasis/logger#readme",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
   "dependencies": {
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react-swc": "^4.2.2",
+    "@vitejs/plugin-react": "^5.1.1",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
