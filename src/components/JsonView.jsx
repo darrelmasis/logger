@@ -1,46 +1,48 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-export const JsonView = ({ data, level = 0 }) => {
-  const [isCollapsed, setIsCollapsed] = useState(level > 0)
-
-  if (data === null) return <span style={{ color: '#999' }}>null</span>
-  if (data === undefined) return <span style={{ color: '#999' }}>undefined</span>
+export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onToggle }) => {
+  const [internalCollapsed, setInternalCollapsed] = useState(true)
   
+  const isCollapsed = collapsed !== undefined ? collapsed : internalCollapsed
+  const handleToggle = (e) => {
+    if (e) e.stopPropagation()
+    if (onToggle) {
+      onToggle(!isCollapsed)
+    } else {
+      setInternalCollapsed(!isCollapsed)
+    }
+  }
+
+  if (data === null) return <span className="json-null">null</span>
+  if (data === undefined) return <span className="json-null">undefined</span>
+
   const type = typeof data
-  
-  // Primitive types
-  if (type === 'string') {
-    return <span style={{ color: '#ce9178' }}>"{data}"</span>
-  }
-  if (type === 'number') {
-    return <span style={{ color: '#b5cea8' }}>{data}</span>
-  }
-  if (type === 'boolean') {
-    return <span style={{ color: '#569cd6' }}>{String(data)}</span>
-  }
+
+  if (type === 'string') return <span className="json-string">"{data}"</span>
+  if (type === 'number') return <span className="json-number">{data}</span>
+  if (type === 'boolean') return <span className="json-boolean">{String(data)}</span>
 
   // Arrays
   if (Array.isArray(data)) {
     if (data.length === 0) return <span>[]</span>
     
     return (
-      <span>
-        <span 
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          style={{ cursor: 'pointer', userSelect: 'none' }}
-        >
+      <span className="json-view">
+        <span onClick={handleToggle} className="json-arrow">
           {isCollapsed ? '▶' : '▼'}
         </span>
         {' '}
         {isCollapsed ? (
-          <span style={{ color: '#888' }}>[{data.length} items]</span>
+          <span onClick={handleToggle} className="json-collapsed">
+            [{data.length} items]
+          </span>
         ) : (
           <>
             [
-            <div style={{ paddingLeft: 20 }}>
+            <div className="json-indent">
               {data.map((item, idx) => (
                 <div key={idx}>
-                  <JsonView data={item} level={level + 1} />
+                  <JsonView data={item} level={level + 1} isDarkMode={isDarkMode} />
                   {idx < data.length - 1 ? ',' : ''}
                 </div>
               ))}
@@ -58,23 +60,22 @@ export const JsonView = ({ data, level = 0 }) => {
     if (entries.length === 0) return <span>{'{}'}</span>
 
     return (
-      <span>
-        <span 
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          style={{ cursor: 'pointer', userSelect: 'none' }}
-        >
+      <span className="json-view">
+        <span onClick={handleToggle} className="json-arrow">
           {isCollapsed ? '▶' : '▼'}
         </span>
         {' '}
         {isCollapsed ? (
-          <span style={{ color: '#888' }}>{'{'}{entries.length} keys{'}'}</span>
+          <span onClick={handleToggle} className="json-collapsed">
+            {'{'}{entries.length} keys{'}'}
+          </span>
         ) : (
           <>
             {'{'}
-            <div style={{ paddingLeft: 20 }}>
+            <div className="json-indent">
               {entries.map(([key, value], idx) => (
                 <div key={key}>
-                  <span style={{ color: '#9cdcfe' }}>"{key}"</span>: <JsonView data={value} level={level + 1} />
+                  <span className="json-key">"{key}"</span>: <JsonView data={value} level={level + 1} isDarkMode={isDarkMode} />
                   {idx < entries.length - 1 ? ',' : ''}
                 </div>
               ))}

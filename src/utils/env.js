@@ -8,5 +8,6 @@ export const detectEnv = () => {
   }
   return 'development'
 }
+console.log(detectEnv());
 
 export const isProd = detectEnv() === 'production'

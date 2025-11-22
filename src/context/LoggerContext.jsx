@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { isProd, detectEnv } from '../utils/env'
 
 const LoggerContext = createContext()
@@ -9,15 +9,20 @@ export const LoggerProvider = ({ children }) => {
 
   const addLog = (level, ...args) => {
     if (!isProd || level === 'force') {
-      const consoleMethod = level === 'force' || level === 'log' ? 'log' : level
-      // Pass arguments directly to console to preserve object inspection
+      // Mapear niveles personalizados a métodos válidos de console
+      const consoleMethod = level === 'success' || level === 'info' ? 'log' :
+                           level === 'force' ? 'log' :
+                           level === 'warn' ? 'warn' :
+                           level === 'error' ? 'error' : 'log'
+      
+      // Pasar argumentos directamente a console para preservar la inspección de objetos
       console[consoleMethod](...args)
       
-      // For display, convert objects to a readable format
+      // Para mostrar, convertir objetos a un formato legible
       const message = args.map(arg => {
         if (typeof arg === 'object' && arg !== null) {
           try {
-            // Handle circular references
+            // Manejar referencias circulares
             const seen = new WeakSet()
             return JSON.stringify(arg, (key, value) => {
               if (typeof value === 'object' && value !== null) {
@@ -35,8 +40,9 @@ export const LoggerProvider = ({ children }) => {
         return String(arg)
       }).join(' ')
       
-      // Store both the original data and formatted message
-      setLogs(prev => [...prev, { level, message, data: args }])
+      // Guardar tanto los datos originales como el mensaje formateado con timestamp
+      const timestamp = new Date()
+      setLogs(prev => [...prev, { level, message, data: args, timestamp }])
     }
   }
 
@@ -49,10 +55,13 @@ export const LoggerProvider = ({ children }) => {
   log.force = (...args) => addLog('force', '[FORCE]', ...args)
   log.env = detectEnv()
 
-  const clearLogs = () => setLogs([])
+  const clearLogs = () => {
+    setLogs([])
+    console.clear()
+  }
 
   return (
-    <LoggerContext.Provider value={{ logs, log, clearLogs }}>
+    <LoggerContext.Provider value={{ logs, log, clearLogs, isProd }}>
       {children}
     </LoggerContext.Provider>
   )
