@@ -31,18 +31,14 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
   const levelClass = `logger-${log.level || 'info'}`
   const lastClass = isLast ? 'logger-item-last' : ''
+  const expandedClass = expanded ? 'logger-item-expanded' : ''
 
   return (
     <div 
       onClick={toggleExpand}
-      className={`logger-item ${levelClass} ${themeClass} ${lastClass}`}
+      className={`logger-item ${levelClass} ${themeClass} ${lastClass} ${expandedClass}`}
     >
-      <button
-        onClick={copyLog}
-        className={`logger-copy-btn ${themeClass}`}
-      >
-        {copied ? '✓' : '📋'}
-      </button>
+      
 
       <div className={`logger-timestamp ${themeClass}`}>
         [{formatTime(log.timestamp)}]
@@ -69,6 +65,13 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
           <pre>{log.message}</pre>
         )}
       </div>
+
+      <button
+        onClick={copyLog}
+        className={`logger-copy-btn ${themeClass}`}
+      >
+        {copied ? '✓' : '📋'}
+      </button>
     </div>
   )
 }

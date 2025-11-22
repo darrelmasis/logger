@@ -201,7 +201,6 @@ $force-light: #6a1b9a;
 // Área de contenido de logs
 .logger-content {
   overflow-y: auto;
-  padding: 10px;
   flex: 1;
   
   &.logger-dark {
@@ -229,10 +228,40 @@ $force-light: #6a1b9a;
 
 // Item de log
 .logger-item {
-  margin-bottom: 8px;
-  padding-bottom: 8px;
+  padding: 16px 16px 16px 4px;
   position: relative;
   cursor: pointer;
+  display: flex;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+  
+  // Estado hover - Modo oscuro
+  &.logger-dark:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+  
+  // Estado hover - Modo claro
+  &.logger-light:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  
+  // Estado expandido - Modo oscuro
+  &.logger-item-expanded.logger-dark {
+    background-color: rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+  }
+  
+  // Estado expandido - Modo claro
+  &.logger-item-expanded.logger-light {
+    background-color: rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
   
   &:not(.logger-item-last) {
     &.logger-dark {
@@ -260,12 +289,13 @@ $force-light: #6a1b9a;
 // Botón de copiar
 .logger-copy-btn {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 8px;
+  right: 8px;
   border: none;
   cursor: pointer;
   font-size: 12px;
-  padding: 4px 8px;
+  width: 32px;
+  height: 32px;
   border-radius: 4px;
   opacity: 0.6;
   transition: opacity 0.2s;
