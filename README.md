@@ -44,15 +44,16 @@ function App() {
 }
 ```
 
-### 2. Logging en Componentes
+### 2. Logging en Cualquier Lugar
 
-Usa el hook `useLogger` para acceder a las funciones de logging:
+Importa `log` directamente y úsalo en **cualquier lugar** - componentes, funciones, servicios, etc.:
 
 ```jsx
-import { useLogger } from '@dmasis/logger'
+import { log } from '@dmasis/logger'
 
 function MyComponent() {
-  const { log } = useLogger()
+  // ✅ Funciona en el cuerpo del componente (NO causa re-renders)
+  log('Componente renderizando')
 
   const handleAction = () => {
     // Logging simple (por defecto es info - azul)
@@ -75,6 +76,12 @@ function MyComponent() {
   }
 
   return <button onClick={handleAction}>Ejecutar</button>
+}
+
+// ✅ También funciona en funciones normales
+export function fetchData() {
+  log.info('Fetching data...')
+  // ...
 }
 ```
 
@@ -120,16 +127,16 @@ Componente visual que muestra los logs en un panel flotante interactivo.
   - Rojo (#f44336): `log.error()`
   - Morado (#9c27b0): `log.force()`
 
-### `useLogger()`
+### `log`
 
-Hook que retorna un objeto con las siguientes propiedades:
+Función principal de logging que se puede usar en **cualquier lugar** sin causar re-renders.
 
 #### `log(...args)`
 
 Función principal para logging. **Por defecto es nivel info (azul)**. Acepta múltiples argumentos de cualquier tipo.
 
 ```jsx
-const { log } = useLogger()
+import { log } from '@dmasis/logger'
 
 // Strings (nivel info - azul)
 log('Mensaje simple')
@@ -199,7 +206,7 @@ log.force('Mensaje crítico que debe mostrarse siempre')
 Propiedad que retorna el entorno actual.
 
 ```jsx
-const { log } = useLogger()
+import { log } from '@dmasis/logger'
 
 console.log(log.env) // 'development' o 'production'
 
@@ -208,14 +215,14 @@ if (log.env === 'development') {
 }
 ```
 
-#### `clearLogs()`
+#### `log.clear()`
 
 Función para limpiar todos los logs programáticamente.
 
 ```jsx
-const { clearLogs } = useLogger()
+import { log } from '@dmasis/logger'
 
-clearLogs() // Elimina todos los logs
+log.clear() // Elimina todos los logs
 ```
 
 ## 🔧 Detección de Entorno
@@ -296,7 +303,7 @@ Cada log tiene un botón de copiar (📋) que:
 export { 
   LoggerProvider,  // Proveedor del contexto
   LoggerDisplay,   // Componente visual
-  useLogger        // Hook para logging
+  log              // Función de logging (úsala en cualquier lugar)
 }
 ```
 

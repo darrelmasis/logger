@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useLogger } from '../context/LoggerContext'
+import { useLoggerContext } from '../context/LoggerContext'
+import { log } from '../core/LoggerCore'
 import { JsonView } from './JsonView'
 import '../styles/logger.scss'
 
@@ -73,7 +74,7 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
 }
 
 export const LoggerDisplay = () => {
-  const { logs, clearLogs, isProd } = useLogger()
+  const { logs, isProd } = useLoggerContext()
   const [isExpanded, setIsExpanded] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('logger-theme')
@@ -133,7 +134,7 @@ export const LoggerDisplay = () => {
           <button
             onClick={(e) => {
               e.stopPropagation()
-              clearLogs()
+              log.clear()
             }}
             className={`logger-btn logger-btn-clear ${themeClass}`}
             title="Limpiar todos los logs"
