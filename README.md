@@ -1,38 +1,38 @@
 # @darelmasis/devlogger
 
-> 🎯 Librería React ligera para logging visual en desarrollo con panel flotante interactivo
+> Librería React ligera para logging visual en desarrollo con panel flotante interactivo
 
 [![npm version](https://img.shields.io/npm/v/@darelmasis/devlogger.svg)](https://www.npmjs.com/package/@darelmasis/devlogger)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Una solución moderna y elegante para debugging en React que combina logging en consola con un panel visual interactivo. Se desactiva automáticamente en producción para mantener tu aplicación limpia.
 
-## ✨ Características
+## Características
 
-- 🎨 **Panel visual collapsable** - Interfaz flotante no invasiva que se minimiza en un círculo
-- ✨ **Efecto translúcido** - Panel con backdrop blur para un aspecto moderno y elegante
-- 📌 **Panel fijable** - Fija el panel para que no se cierre al hacer click fuera
-- 💾 **Persistencia de estado** - Recuerda tema, estado fijado y si estaba abierto/cerrado
-- 👆 **Click fuera para minimizar** - Cierra automáticamente el panel al hacer click fuera (si no está fijado)
-- 🎯 **Scroll automático** - Desplazamiento suave al último log cuando llega uno nuevo
-- 🎭 **Acordeón de logs** - Solo un log expandido a la vez para mejor enfoque
-- 🌓 **Tema claro/oscuro** - Alterna entre temas con persistencia en localStorage
-- 🔍 **Objetos JSON interactivos** - Expande y colapsa objetos complejos como en DevTools
-- 📋 **Copiar logs** - Copia cualquier log al clipboard con un click
-- 🗑️ **Limpiar logs** - Elimina todos los logs fácilmente
-- 🎯 **Auto-detección de entorno** - Se desactiva automáticamente en producción
-- ⚡ **Captura automática de errores** - Captura errores no manejados, promesas rechazadas y más
-- 🚀 **Ligera** - Solo ~18KB (gzipped: ~5KB)
-- 🔄 **Manejo de objetos circulares** - Soporta objetos complejos como `window`
-- 🎨 **Colores de alto contraste** - Success (verde), Info (azul), Warning (naranja), Error (rojo), Force (morado)
+- **Panel visual collapsable** - Interfaz flotante no invasiva que se minimiza en un círculo
+- **Efecto translúcido** - Panel con backdrop blur para un aspecto moderno y elegante
+- **Panel fijable** - Fija el panel para que no se cierre al hacer click fuera
+- **Persistencia de estado** - Recuerda tema, estado fijado y si estaba abierto/cerrado
+- **Click fuera para minimizar** - Cierra automáticamente el panel al hacer click fuera (si no está fijado)
+- **Scroll automático** - Desplazamiento suave al último log cuando llega uno nuevo
+- **Acordeón de logs** - Solo un log expandido a la vez para mejor enfoque
+- **Tema claro/oscuro** - Alterna entre temas con persistencia en localStorage
+- **Objetos JSON interactivos** - Expande y colapsa objetos complejos como en DevTools
+- **Copiar logs** - Copia cualquier log al clipboard con un click
+- **Limpiar logs** - Elimina todos los logs fácilmente
+- **Auto-detección de entorno** - Se desactiva automáticamente en producción
+- **Captura automática de errores** - Captura errores no manejados, promesas rechazadas y más
+- **Ligera** - Solo ~18KB (gzipped: ~5KB)
+- **Manejo de objetos circulares** - Soporta objetos complejos como `window`
+- **Colores de alto contraste** - Success (verde), Info (azul), Warning (naranja), Error (rojo), Force (morado)
 
-## 🚀 Instalación
+## Instalación
 
 ```bash
 npm install @darelmasis/devlogger
 ```
 
-## 📖 Uso Rápido
+## Uso Rápido
 
 ### 1. Configuración Básica
 
@@ -92,7 +92,7 @@ export function fetchData() {
 }
 ```
 
-## 🎯 API Completa
+## API Completa
 
 ### `LoggerProvider`
 
@@ -116,18 +116,18 @@ Componente visual que muestra los logs en un panel flotante interactivo.
 ```
 
 **Características del panel:**
-- 🔵 **Estado colapsado**: Círculo pequeño en la esquina inferior derecha
+- **Estado colapsado**: Círculo pequeño en la esquina inferior derecha
   - Gris cuando no hay logs
   - Verde cuando hay logs (muestra el contador)
   - Click para expandir
-- 📱 **Estado expandido**: Panel completo con:
+- **Estado expandido**: Panel completo con:
   - Header con contador de logs (click en el header para minimizar)
-  - Botón para alternar tema claro/oscuro (☀️/🌙)
-  - Botón para limpiar todos los logs (🗑️)
-  - Botón para minimizar (−)
+  - Botón para alternar tema claro/oscuro
+  - Botón para limpiar todos los logs
+  - Botón para minimizar
   - Área scrolleable con todos los logs
-  - Botón de copiar en cada log (📋)
-- 🎨 **Colores por nivel**:
+  - Botón de copiar en cada log
+- **Colores por nivel**:
   - Verde (#4caf50): `log.success()`
   - Azul (#2196f3): `log()` y `log.info()`
   - Naranja (#ff9800): `log.warn()`
@@ -232,7 +232,7 @@ import { log } from '@dmasis/logger'
 log.clear() // Elimina todos los logs
 ```
 
-## 🔧 Detección de Entorno
+## Detección de Entorno
 
 La librería detecta automáticamente el entorno usando la siguiente prioridad:
 
@@ -255,7 +255,7 @@ VITE_APP_ENV=development
 VITE_APP_ENV=production
 ```
 
-## 🎨 Características Avanzadas
+## Características Avanzadas
 
 ### Objetos JSON Collapsables
 
@@ -299,12 +299,12 @@ log(circular) // ✅ Muestra [Circular] en las referencias
 
 ### Copiar Logs
 
-Cada log tiene un botón de copiar (📋) que:
+Cada log tiene un botón de copiar que:
 - Copia el contenido al clipboard
-- Muestra ✓ durante 2 segundos como confirmación
+- Muestra confirmación durante 2 segundos
 - Funciona con objetos (copia el JSON formateado)
 
-## 📦 Exports
+## Exports
 
 ```javascript
 export { 
@@ -314,7 +314,7 @@ export {
 }
 ```
 
-## 🛠️ Desarrollo
+## Desarrollo
 
 ```bash
 # Instalar dependencias
@@ -333,7 +333,7 @@ npm run lint
 npm run preview
 ```
 
-## 🤝 Contribuciones
+## Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
 
@@ -343,11 +343,11 @@ Las contribuciones son bienvenidas. Por favor:
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abre un Pull Request
 
-## 📄 Licencia
+## Licencia
 
 MIT © [Darel Masis](https://github.com/darrelmasis)
 
-## 🔗 Links
+## Links
 
 - [NPM Package](https://www.npmjs.com/package/@darelmasis/devlogger)
 - [GitHub Repository](https://github.com/darrelmasis/logger)
@@ -355,4 +355,4 @@ MIT © [Darel Masis](https://github.com/darrelmasis)
 
 ---
 
-Hecho con ❤️ por [Darel Masis](https://github.com/darrelmasis)
+Hecho por [Darel Masis](https://github.com/darrelmasis)

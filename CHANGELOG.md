@@ -7,28 +7,28 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ## [0.3.0] - 2025-11-22
 
-### ✨ Agregado
+### Agregado
 - **Iconos SVG personalizados**: Implementado componente `Icons.jsx` con iconos SVG optimizados
 - **Directorio de assets**: Agregado directorio `src/assets/` con iconos SVG
 - **Script de procesamiento de iconos**: Nuevo script `process-icons.js` para gestionar iconos
 
-### 🎨 Mejorado
+### Mejorado
 - **Interfaz visual moderna**: Reemplazados todos los emojis por iconos SVG profesionales
 - **Mejor experiencia visual**: Iconos más nítidos y consistentes en todos los tamaños
 - **Iconos personalizables**: Sistema de iconos que permite fácil personalización
 
-### 🔧 Cambiado
+### Cambiado
 - **LoggerDisplay**: Actualizado para usar iconos SVG en lugar de emojis
 - **Configuración de Vite**: Agregado soporte para SVGR con `vite-plugin-svgr`
 - **Build optimizado**: Configuración mejorada para incluir assets SVG en el bundle
 
-### 📦 Dependencias
+### Dependencias
 - Agregado `vite-plugin-svgr` para soporte de SVG como componentes React
 
 ## [0.2.0] - 2025-11-22
 
-### ✨ Agregado
-- **Panel fijable**: Nuevo botón 📌 para fijar el panel y evitar que se cierre al hacer click fuera
+### Agregado
+- **Panel fijable**: Nuevo botón para fijar el panel y evitar que se cierre al hacer click fuera
 - **Persistencia completa**: El panel ahora recuerda su estado (abierto/cerrado, fijado, tema) entre recargas
 - **Scroll automático**: Desplazamiento suave al último log cuando llega uno nuevo
 - **Acordeón de logs**: Solo un log puede estar expandido a la vez para mejor enfoque
@@ -38,7 +38,7 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
   - Errores de tipo (TypeError, ReferenceError, etc.)
 - **Función utilitaria**: Movida `formatTime` a `utils/utils.js` para mejor organización
 
-### 🎨 Mejorado
+### Mejorado
 - **Efecto translúcido**: Agregado `backdrop-filter: blur(10px)` para efecto glassmorphism
 - **Contraste de colores**: Mejorados todos los colores de logs para mejor legibilidad:
   - Modo oscuro: Colores más brillantes y vibrantes
@@ -47,27 +47,27 @@ y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 - **Botón de copiar**: Ahora con opacidad 1 y fondo transparente hasta hover
 - **Estados hover y expandido**: Fondos diferenciados para items expandidos y hover
 
-### 🔧 Cambiado
+### Cambiado
 - **Click fuera para minimizar**: Ahora respeta el estado de "fijado"
 - **Nombre del paquete**: Renombrado de `@dmasis/logger` a `@darelmasis/devlogger`
 
-### 🐛 Corregido
+### Corregido
 - Prevención de loops infinitos en captura de errores
 - Duplicación de código en `App.jsx`
 
 ## [0.1.1] - 2025-11-22
 
-### ✨ Agregado
+### Agregado
 - Efecto translúcido con backdrop blur
 - Click fuera para minimizar el panel
 
-### 🎨 Mejorado
+### Mejorado
 - Estados hover en items de log
 - Estilos visuales del panel
 
 ## [0.1.0] - 2025-11-22
 
-### ✨ Inicial
+### Inicial
 - Lanzamiento inicial del logger
 - Panel visual collapsable
 - Tema claro/oscuro
