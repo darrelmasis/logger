@@ -73,12 +73,17 @@ const LogItem = ({ log, isDarkMode, isLast }) => {
 }
 
 export const LoggerDisplay = () => {
-  const { logs, clearLogs } = useLogger()
+  const { logs, clearLogs, isProd } = useLogger()
   const [isExpanded, setIsExpanded] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('logger-theme')
     return savedTheme ? savedTheme === 'dark' : true
   })
+
+  // Don't render in production
+  if (isProd) {
+    return null
+  }
 
   useEffect(() => {
     localStorage.setItem('logger-theme', isDarkMode ? 'dark' : 'light')
@@ -88,7 +93,7 @@ export const LoggerDisplay = () => {
     if (logs.length > 0 && !isExpanded) {
       // Optional: auto-expand logic
     }
-  }, [logs.length])
+  }, [logs.length, isExpanded])
 
   const hasLogs = logs.length > 0
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
