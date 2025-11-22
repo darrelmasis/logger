@@ -24,6 +24,56 @@ export const LoggerProvider = ({ children }) => {
     return unsubscribe
   }, [])
 
+  // Capture uncaught JavaScript errors
+  useEffect(() => {
+    if (isProd) return
+
+    const handleError = (event) => {
+      // Prevent default browser error handling
+      event.preventDefault()
+      
+      const errorMessage = event.error 
+        ? event.error.stack || event.error.message 
+        : event.message
+
+      loggerCore.addLog('error', [
+        'Uncaught Error:',
+        errorMessage,
+        event.filename ? `at ${event.filename}:${event.lineno}:${event.colno}` : ''
+      ])
+      
+      return true
+    }
+
+    window.addEventListener('error', handleError)
+
+    return () => {
+      window.removeEventListener('error', handleError)
+    }
+  }, [isProd])
+
+  // Capture unhandled promise rejections
+  useEffect(() => {
+    if (isProd) return
+
+    const handleRejection = (event) => {
+      event.preventDefault()
+      
+      const reason = event.reason?.stack || event.reason?.message || event.reason
+
+      loggerCore.addLog('error', [
+        'Unhandled Promise Rejection:',
+        reason
+      ])
+    }
+
+    window.addEventListener('unhandledrejection', handleRejection)
+
+    return () => {
+      window.removeEventListener('unhandledrejection', handleRejection)
+    }
+  }, [isProd])
+
   // Memoize context value to prevent unnecessary re-renders
   const contextValue = useMemo(() => ({ 
     logs,

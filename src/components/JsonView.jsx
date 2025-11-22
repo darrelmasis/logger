@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import Icon from './Icons'
+
+const arrowDown = <Icon name="chevron-down" size="xs" />
+const arrowRight = <Icon name="chevron-right" size="xs" />
 
 export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onToggle }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(true)
@@ -29,7 +33,7 @@ export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onTogg
     return (
       <span className="json-view">
         <span onClick={handleToggle} className="json-arrow">
-          {isCollapsed ? '▶' : '▼'}
+          {isCollapsed ? arrowDown : arrowRight}
         </span>
         {' '}
         {isCollapsed ? (
@@ -62,7 +66,7 @@ export const JsonView = ({ data, level = 0, isDarkMode = true, collapsed, onTogg
     return (
       <span className="json-view">
         <span onClick={handleToggle} className="json-arrow">
-          {isCollapsed ? '▶' : '▼'}
+          {isCollapsed ? arrowDown : arrowRight}
         </span>
         {' '}
         {isCollapsed ? (
