@@ -1,14 +1,15 @@
 import { createContext, useContext, useState, useEffect, useMemo } from 'react'
 import { loggerCore } from '../core/LoggerCore'
-import { detectEnv } from '../utils/env'
+import { getIsProd } from '../utils/env'
 
 const LoggerContext = createContext()
 
 export const LoggerProvider = ({ children }) => {
   const [logs, setLogs] = useState([])
   
-  // Memoriza isProd para evitar recalcularlo en cada render
-  const isProd = useMemo(() => detectEnv() === 'production', [])
+  // Call getIsProd directly - it's a cheap runtime check
+  // No need to memoize since environment won't change during app lifetime
+  const isProd = getIsProd()
 
   // Se suscribe a los eventos del logger
   useEffect(() => {

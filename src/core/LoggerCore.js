@@ -1,9 +1,9 @@
-import { detectEnv } from '../utils/env'
+import { getIsProd, detectEnv } from '../utils/env'
 
 class LoggerCore {
   constructor() {
     this.listeners = []
-    this.isProd = detectEnv() === 'production'
+    // Removed: this.isProd - we check at runtime for each log instead
   }
 
   subscribe(callback) {
@@ -19,7 +19,10 @@ class LoggerCore {
   }
 
   addLog(level, ...args) {
-    if (!this.isProd || level === 'force') {
+    // Check production status at runtime for each log
+    const isProd = getIsProd()
+    
+    if (!isProd || level === 'force') {
       // Convierte los niveles personalizados a métodos válidos de console
       const consoleMethod = level === 'success' || level === 'info' ? 'log' :
                            level === 'force' ? 'log' :
@@ -81,8 +84,14 @@ log.info    = (...args) => loggerCore.addLog('info', '[INFO]', ...args)
 log.warn    = (...args) => loggerCore.addLog('warn', '[WARN]', ...args)
 log.error   = (...args) => loggerCore.addLog('error', '[ERROR]', ...args)
 log.force   = (...args) => loggerCore.addLog('force', '[FORCE]', ...args)
-log.env     = detectEnv()
 log.clear   = () => loggerCore.clear()
+
+// Make log.env a getter so it always returns the current environment dynamically
+Object.defineProperty(log, 'env', {
+  get: () => detectEnv(),
+  enumerable: true,
+  configurable: false
+})
 
 // Exporta tanto la función log como la instancia del core para uso interno
 export { log, loggerCore }
