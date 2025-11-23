@@ -149,14 +149,18 @@ export const LoggerDisplay = () => {
   const themeClass = isDarkMode ? 'logger-dark' : 'logger-light'
 
   if (!isExpanded) {
-    const statusClass = hasLogs ? 'has-logs' : 'no-logs'
     return (
       <div 
         onClick={() => setIsExpanded(true)}
-        className={`logger-collapsed ${statusClass} ${themeClass}`}
+        className={`logger-collapsed ${themeClass}`}
         title={hasLogs ? `${logs.length} log(s)` : 'Logger'}
       >
-        {hasLogs ? logs.length : <Icon name="code-simple" size="md" />}
+        <Icon name="code-simple" size="md" />
+        {hasLogs && (
+          <span className={`logger-badge ${themeClass}`}>
+            {logs.length > 99 ? '99+' : logs.length}
+          </span>
+        )}
       </div>
     )
   }

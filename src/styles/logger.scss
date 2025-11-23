@@ -34,6 +34,13 @@ $collapsed-has-logs-light: #43a047;
 $collapsed-no-logs-dark: #1e1d1d;
 $collapsed-no-logs-light: #c6c4c4;
 
+// Badge de notificación
+$badge-bg: #4caf50;
+$badge-bg-gradient-start: #4caf50;
+$badge-bg-gradient-end: #45a049;
+$badge-text: #ffffff;
+$badge-shadow-color: rgba(76, 175, 80, 0.4);
+
 // JSON view
 $json-dark-null: #999999;
 $json-dark-string: #ce9178;
@@ -102,17 +109,42 @@ $border-white: #ffffff;
 
   &:hover { transform: scale(1.1); }
 
-  &.has-logs.logger-dark { background-color: $collapsed-has-logs-dark; }
-  &.has-logs.logger-light { 
-    background-color: $collapsed-has-logs-light; 
-    color: $light-text; 
-    border: 2px solid $border-white; 
+  // La burbuja mantiene el mismo color siempre (no cambia con logs)
+  &.logger-dark { 
+    background-color: $collapsed-no-logs-dark; 
   }
-  &.no-logs.logger-dark { background-color: $collapsed-no-logs-dark; }
-  &.no-logs.logger-light { 
+  &.logger-light { 
     background-color: $collapsed-no-logs-light; 
     color: $light-text; 
     border: 2px solid $border-white; 
+  }
+
+  .logger-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: linear-gradient(135deg, $badge-bg-gradient-start 0%, $badge-bg-gradient-end 100%);
+    color: $badge-text;
+    border-radius: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 0 6px;
+    box-shadow: 0 3px 12px $badge-shadow-color, 0 1px 3px rgba(0, 0, 0, 0.2);
+    line-height: 1;
+    letter-spacing: -0.3px;
+    z-index: 1;
+    transition: transform 0.2s, box-shadow 0.2s;
+    
+    // Efecto hover sutil
+    .logger-collapsed:hover & {
+      transform: scale(1.1);
+      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.5), 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
   }
 }
 
