@@ -7,10 +7,10 @@ const LoggerContext = createContext()
 export const LoggerProvider = ({ children }) => {
   const [logs, setLogs] = useState([])
   
-  // Memoize isProd to prevent recalculation on every render
+  // Memoriza isProd para evitar recalcularlo en cada render
   const isProd = useMemo(() => detectEnv() === 'production', [])
 
-  // Subscribe to logger events
+  // Se suscribe a los eventos del logger
   useEffect(() => {
     const unsubscribe = loggerCore.subscribe((logEntry) => {
       if (logEntry.type === 'clear') {
@@ -20,16 +20,16 @@ export const LoggerProvider = ({ children }) => {
       }
     })
 
-    // Cleanup subscription on unmount
+    // Limpia la suscripción al desmontar el componente
     return unsubscribe
   }, [])
 
-  // Capture uncaught JavaScript errors
+  // Captura errores JavaScript no manejados
   useEffect(() => {
     if (isProd) return
 
     const handleError = (event) => {
-      // Prevent default browser error handling
+      // Evita el manejo de errores por defecto del navegador
       event.preventDefault()
       
       const errorMessage = event.error 
@@ -37,9 +37,9 @@ export const LoggerProvider = ({ children }) => {
         : event.message
 
       loggerCore.addLog('error', [
-        'Uncaught Error:',
+        'Error No Capturado:',
         errorMessage,
-        event.filename ? `at ${event.filename}:${event.lineno}:${event.colno}` : ''
+        event.filename ? `en ${event.filename}:${event.lineno}:${event.colno}` : ''
       ])
       
       return true
@@ -52,7 +52,7 @@ export const LoggerProvider = ({ children }) => {
     }
   }, [isProd])
 
-  // Capture unhandled promise rejections
+  // Captura rechazos de promesas no manejados
   useEffect(() => {
     if (isProd) return
 
@@ -62,7 +62,7 @@ export const LoggerProvider = ({ children }) => {
       const reason = event.reason?.stack || event.reason?.message || event.reason
 
       loggerCore.addLog('error', [
-        'Unhandled Promise Rejection:',
+        'Promesa No Manejada:',
         reason
       ])
     }
@@ -74,7 +74,7 @@ export const LoggerProvider = ({ children }) => {
     }
   }, [isProd])
 
-  // Memoize context value to prevent unnecessary re-renders
+  // Memoriza el valor del contexto para evitar renders innecesarios
   const contextValue = useMemo(() => ({ 
     logs,
     isProd 
@@ -87,5 +87,5 @@ export const LoggerProvider = ({ children }) => {
   )
 }
 
-// Export hook for internal use by LoggerDisplay
+// Hook para acceder al contexto del logger desde componentes internos
 export const useLoggerContext = () => useContext(LoggerContext)

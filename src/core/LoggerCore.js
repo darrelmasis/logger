@@ -8,7 +8,7 @@ class LoggerCore {
 
   subscribe(callback) {
     this.listeners.push(callback)
-    // Return unsubscribe function
+    // Retorna una función para desuscribir
     return () => {
       this.listeners = this.listeners.filter(listener => listener !== callback)
     }
@@ -20,20 +20,20 @@ class LoggerCore {
 
   addLog(level, ...args) {
     if (!this.isProd || level === 'force') {
-      // Map custom levels to valid console methods
+      // Convierte los niveles personalizados a métodos válidos de console
       const consoleMethod = level === 'success' || level === 'info' ? 'log' :
                            level === 'force' ? 'log' :
                            level === 'warn' ? 'warn' :
                            level === 'error' ? 'error' : 'log'
       
-      // Pass arguments directly to console to preserve object inspection
+      // Pasa los argumentos directamente a console para mantener la inspección de objetos
       console[consoleMethod](...args)
       
-      // For display, convert objects to readable format
+      // Para mostrar en pantalla, convierte objetos a un formato legible
       const message = args.map(arg => {
         if (typeof arg === 'object' && arg !== null) {
           try {
-            // Handle circular references
+            // Maneja referencias circulares
             const seen = new WeakSet()
             return JSON.stringify(arg, (key, value) => {
               if (typeof value === 'object' && value !== null) {
@@ -45,13 +45,13 @@ class LoggerCore {
               return value
             }, 2)
           } catch (e) {
-            return `[Object: ${Object.prototype.toString.call(arg)}]`
+            return `[Objeto: ${Object.prototype.toString.call(arg)}]`
           }
         }
         return String(arg)
       }).join(' ')
       
-      // Create log entry with timestamp
+      // Crea la entrada del log con marca de tiempo
       const logEntry = {
         level,
         message,
@@ -59,7 +59,7 @@ class LoggerCore {
         timestamp: new Date()
       }
       
-      // Emit event to all listeners
+      // Emite el evento a todos los suscriptores
       this.emit(logEntry)
     }
   }
@@ -70,19 +70,19 @@ class LoggerCore {
   }
 }
 
-// Create singleton instance
+// Crea una instancia única (singleton)
 const loggerCore = new LoggerCore()
 
-// Create log function with methods
+// Crea la función log con métodos adicionales
 const log = (...args) => loggerCore.addLog('info', ...args)
 
 log.success = (...args) => loggerCore.addLog('success', '[SUCCESS]', ...args)
-log.info = (...args) => loggerCore.addLog('info', '[INFO]', ...args)
-log.warn = (...args) => loggerCore.addLog('warn', '[WARN]', ...args)
-log.error = (...args) => loggerCore.addLog('error', '[ERROR]', ...args)
-log.force = (...args) => loggerCore.addLog('force', '[FORCE]', ...args)
-log.env = detectEnv()
-log.clear = () => loggerCore.clear()
+log.info    = (...args) => loggerCore.addLog('info', '[INFO]', ...args)
+log.warn    = (...args) => loggerCore.addLog('warn', '[WARN]', ...args)
+log.error   = (...args) => loggerCore.addLog('error', '[ERROR]', ...args)
+log.force   = (...args) => loggerCore.addLog('force', '[FORCE]', ...args)
+log.env     = detectEnv()
+log.clear   = () => loggerCore.clear()
 
-// Export both the log function and the core instance for internal use
+// Exporta tanto la función log como la instancia del core para uso interno
 export { log, loggerCore }
