@@ -5,6 +5,16 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.2] - 2025-11-25
+
+### Mejorado 🚀
+- **Guía de inicio rápido en demo**: Agregada sección de inicio rápido con 3 pasos
+  - Paso 1: Instalación del paquete
+  - Paso 2: Configuración en la aplicación
+  - Paso 3: Uso en cualquier lugar
+  - Estilos profesionales con números graduales y código destacado
+- **Versiones actualizadas en demo**: Botón CTA y footer ahora muestran v0.4.1
+
 ## [0.4.1] - 2025-11-25
 
 ### Mejorado 🚀
