@@ -5,6 +5,15 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.4] - 2025-11-25
+
+### Mejorado 🚀
+- **UI de Guía de Inicio Rápido**:
+  - Eliminado ancho máximo para ocupar todo el espacio disponible
+  - Botón de copiar movido al encabezado para dar más espacio al código
+  - Reducido padding y tamaño de fuente del código para mejor legibilidad
+  - Diseño más compacto y profesional
+
 ## [0.4.3] - 2025-11-25
 
 ### Mejorado 🚀

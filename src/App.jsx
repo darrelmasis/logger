@@ -169,7 +169,7 @@ function App() {
           >
             <span className="demo-cta-icon">📦</span>
             <span className="demo-cta-text">
-              <span className="demo-cta-label">Instalar v0.4.3 (latest)</span>
+              <span className="demo-cta-label">Instalar v0.4.4 (latest)</span>
               <span className="demo-cta-command">npm install @darelmasis/devlogger</span>
             </span>
           </a>
@@ -207,9 +207,6 @@ function App() {
             <div className="demo-step-header">
               <div className="demo-step-number">1</div>
               <h3>Instalar paquete</h3>
-            </div>
-            <div className="demo-code-block">
-              <code>npm install @darelmasis/devlogger</code>
               <button 
                 className="demo-copy-btn"
                 onClick={() => copyToClipboard('npm install @darelmasis/devlogger', 1)}
@@ -218,15 +215,15 @@ function App() {
                 {copiedStep === 1 ? '✓' : '📋'}
               </button>
             </div>
+            <div className="demo-code-block">
+              <code>npm install @darelmasis/devlogger</code>
+            </div>
           </div>
           
           <div className="demo-step">
             <div className="demo-step-header">
               <div className="demo-step-number">2</div>
               <h3>Configurar en tu App</h3>
-            </div>
-            <div className="demo-code-block">
-              <code>{'import { LoggerProvider, LoggerDisplay } from "@darelmasis/devlogger"\n\nfunction App() {\n  return (\n    <LoggerProvider>\n      <YourApp />\n      <LoggerDisplay />\n    </LoggerProvider>\n  )\n}'}</code>
               <button 
                 className="demo-copy-btn"
                 onClick={() => copyToClipboard('import { LoggerProvider, LoggerDisplay } from "@darelmasis/devlogger"\n\nfunction App() {\n  return (\n    <LoggerProvider>\n      <YourApp />\n      <LoggerDisplay />\n    </LoggerProvider>\n  )\n}', 2)}
@@ -235,15 +232,15 @@ function App() {
                 {copiedStep === 2 ? '✓' : '📋'}
               </button>
             </div>
+            <div className="demo-code-block">
+              <code>{'import { LoggerProvider, LoggerDisplay } from "@darelmasis/devlogger"\n\nfunction App() {\n  return (\n    <LoggerProvider>\n      <YourApp />\n      <LoggerDisplay />\n    </LoggerProvider>\n  )\n}'}</code>
+            </div>
           </div>
           
           <div className="demo-step">
             <div className="demo-step-header">
               <div className="demo-step-number">3</div>
               <h3>Usar en cualquier lugar</h3>
-            </div>
-            <div className="demo-code-block">
-              <code>{'import { log } from "@darelmasis/devlogger"\n\nlog.info("¡Funciona!")\nlog.success("Usuario registrado")\nlog.error("Error al guardar")'}</code>
               <button 
                 className="demo-copy-btn"
                 onClick={() => copyToClipboard('import { log } from "@darelmasis/devlogger"\n\nlog.info("¡Funciona!")\nlog.success("Usuario registrado")\nlog.error("Error al guardar")', 3)}
@@ -251,6 +248,9 @@ function App() {
               >
                 {copiedStep === 3 ? '✓' : '📋'}
               </button>
+            </div>
+            <div className="demo-code-block">
+              <code>{'import { log } from "@darelmasis/devlogger"\n\nlog.info("¡Funciona!")\nlog.success("Usuario registrado")\nlog.error("Error al guardar")'}</code>
             </div>
           </div>
         </div>
@@ -337,7 +337,7 @@ function App() {
         </div>
 
         <div className="demo-footer-bottom">
-          <p>© 2025 DevLogger • Licencia MIT • v0.4.3</p>
+          <p>© 2025 DevLogger • Licencia MIT • v0.4.4</p>
         </div>
       </footer>
     </div>
