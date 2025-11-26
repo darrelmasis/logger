@@ -9,23 +9,10 @@ log.info('Componente App renderizando');
 
 function App() {
   const [count, setCount] = useState(0);
-  
-  // Establecer simulación por defecto en producción (GitHub Pages)
   const [simulatedEnv, setSimulatedEnv] = useState(() => {
-    const stored = localStorage.getItem('devlogger-simulated-env');
-    
-    // Si ya hay un valor en localStorage, usarlo
-    if (stored) return stored;
-    
-    // Si estamos en producción (GitHub Pages) y no hay simulación,
-    // establecer 'development' por defecto para mostrar la demo
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    if (isGitHubPages) {
-      localStorage.setItem('devlogger-simulated-env', 'development');
-      return 'development';
-    }
-    
-    return '';
+    // La lógica de simulación automática en GitHub Pages
+    // está en env.js y se ejecuta antes de que React se monte
+    return localStorage.getItem('devlogger-simulated-env') || '';
   });
 
   // Get current environment (simulated or real)

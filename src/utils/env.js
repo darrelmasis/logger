@@ -9,6 +9,20 @@
  * 
  * @returns {'development' | 'production'} Entorno actual
  */
+
+// INICIALIZACIÓN: Establecer simulación automática para GitHub Pages
+// Esto debe ejecutarse ANTES de que los componentes de React se monten
+if (typeof window !== 'undefined') {
+  const isGitHubPages = window.location.hostname.includes('github.io');
+  const hasSimulation = localStorage.getItem('devlogger-simulated-env');
+  
+  // Si estamos en GitHub Pages y NO hay simulación configurada,
+  // establecer 'development' por defecto para mostrar la demo
+  if (isGitHubPages && !hasSimulation) {
+    localStorage.setItem('devlogger-simulated-env', 'development');
+  }
+}
+
 export const detectEnv = () => {
   // Primero verifica si hay un entorno simulado en localStorage (para demo)
   if (typeof window !== 'undefined') {
