@@ -8,10 +8,61 @@ import Icon from './Icons'
 import LogoLight from '../assets/dev-logger-dark.svg'
 import LogoDark from '../assets/dev-logger.svg'
 
+// Función auxiliar para crear una clave única para agrupar logs
+const getLogKey = (log) => {
+  let dataString
+  
+  if (log.data && log.data.length > 0) {
+    try {
+      // Intenta convertir los datos a string
+      dataString = JSON.stringify(log.data)
+    } catch (error) {
+      // Si hay referencia circular u otro error, usa el mensaje procesado como respaldo
+      // log.message ya maneja referencias circulares gracias a LoggerCore
+      dataString = log.message
+    }
+  } else {
+    dataString = log.message
+  }
+  
+  return `${log.level || 'info'}:${dataString}`
+}
 
+// Función para agrupar logs idénticos
+const groupLogs = (logs) => {
+  const groups = []
+  const groupMap = new Map()
 
-const LogItem = ({ log, isDarkMode, isLast, isExpanded, onToggle }) => {
+  logs.forEach((log) => {
+    const key = getLogKey(log)
+    
+    if (groupMap.has(key)) {
+      // Agregar al grupo existente
+      const groupIndex = groupMap.get(key)
+      groups[groupIndex].logs.push(log)
+      groups[groupIndex].count++
+    } else {
+      // Crear nuevo grupo
+      const newGroup = {
+        key,
+        logs: [log],
+        count: 1,
+        level: log.level,
+        message: log.message,
+        data: log.data,
+        timestamp: log.timestamp // Mantiene la primera marca de tiempo para mostrar
+      }
+      groupMap.set(key, groups.length)
+      groups.push(newGroup)
+    }
+  })
+
+  return groups
+}
+
+const LogItem = ({ logGroup, isDarkMode, isLast, isExpanded, onToggle }) => {
   const [copied, setCopied] = useState(false)
+  const log = logGroup.logs[0] // Usa el primer log para mostrar
 
   const copyLog = (e) => {
     e.stopPropagation()
@@ -36,6 +87,11 @@ const LogItem = ({ log, isDarkMode, isLast, isExpanded, onToggle }) => {
 
       <div className={`logger-timestamp ${themeClass}`}>
         [{formatTime(log.timestamp)}]
+        {logGroup.count > 1 && (
+          <span className="logger-group-count">
+            ×{logGroup.count}
+          </span>
+        )}
       </div>
 
       <div className="logger-log-content">
@@ -98,6 +154,9 @@ export const LoggerDisplay = () => {
   const panelRef = useRef(null)
   const contentRef = useRef(null)
 
+  // Agrupa logs para mostrar
+  const groupedLogs = groupLogs(logs)
+
   useEffect(() => {
     if (isProd) return
     localStorage.setItem('logger-theme', isDarkMode ? 'dark' : 'light')
@@ -116,11 +175,11 @@ export const LoggerDisplay = () => {
   useEffect(() => {
     if (isProd) return
     if (logs.length > 0 && !isExpanded) {
-      // Optional: auto-expand logic
+      // Opcional: lógica de auto-expansión
     }
   }, [logs.length, isExpanded, isProd])
 
-  // Auto-scroll to bottom when new logs arrive
+  // Auto-scroll al final cuando llegan nuevos logs
   useEffect(() => {
     if (isProd) return
     if (contentRef.current && isExpanded) {
@@ -131,7 +190,7 @@ export const LoggerDisplay = () => {
     }
   }, [logs, isExpanded, isProd])
 
-  // Click outside to minimize (only if not pinned)
+  // Clic fuera para minimizar (solo si no está fijado)
   useEffect(() => {
     if (isProd) return
     const handleClickOutside = (event) => {
@@ -149,7 +208,7 @@ export const LoggerDisplay = () => {
     }
   }, [isExpanded, isPinned, isProd])
 
-  // Don't render in production - return null after all hooks
+  // No renderizar en producción - retorna null después de todos los hooks
   if (isProd) {
     return null
   }
@@ -162,12 +221,12 @@ export const LoggerDisplay = () => {
       <div 
         onClick={() => setIsExpanded(true)}
         className={`logger-collapsed ${themeClass}`}
-        title={hasLogs ? `${logs.length} log(s)` : 'Logger'}
+        title={hasLogs ? `${groupedLogs.length} grupo(s) de logs` : 'Logger'}
       >
         <Icon name="code-simple" size="md" />
         {hasLogs && (
           <span className={`logger-badge ${themeClass}`}>
-            {logs.length > 99 ? '99+' : logs.length}
+            {groupedLogs.length > 99 ? '99+' : groupedLogs.length}
           </span>
         )}
       </div>
@@ -187,7 +246,7 @@ export const LoggerDisplay = () => {
             alt="Dev Logger" 
             className="logger-logo" 
           />
-          <span>({logs.length})</span>
+          <span>({groupedLogs.length})</span>
         </span>
         <div className="logger-buttons">
           <button
@@ -243,12 +302,12 @@ export const LoggerDisplay = () => {
             </div>
           </div>
         ) : (
-          logs.map((log, idx) => (
+          groupedLogs.map((logGroup, idx) => (
             <LogItem 
-              key={idx} 
-              log={log} 
+              key={logGroup.key} 
+              logGroup={logGroup} 
               isDarkMode={isDarkMode} 
-              isLast={idx === logs.length - 1}
+              isLast={idx === groupedLogs.length - 1}
               isExpanded={expandedLogIndex === idx}
               onToggle={() => setExpandedLogIndex(expandedLogIndex === idx ? null : idx)}
             />
