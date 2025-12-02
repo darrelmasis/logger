@@ -172,7 +172,7 @@ $border-white: #ffffff;
   z-index: 99999;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: visible;
 
   &.logger-dark {
     background-color: $dark-bg;
@@ -226,6 +226,11 @@ $border-white: #ffffff;
     border-radius: 4px;
     transition: background 0.2s;
 
+    // Permitir que los eventos pasen al botón para que funcionen los tooltips
+    & > * {
+      pointer-events: none;
+    }
+
     &.logger-dark {
       color: $dark-text;
       &:hover { background-color: $dark-button-hover-bg; }
@@ -237,12 +242,28 @@ $border-white: #ffffff;
 
     &.logger-btn-clear:hover { background-color: $clear-button-hover; }
     &.logger-btn-minimize { font-size: 18px; }
+
+    &.logger-btn-disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      &:hover {
+        background-color: transparent !important;
+      }
+    }
   }
 
   .logger-btn-minimize-container {
     padding-left: 8px;
     &.logger-dark { border-left: 1px solid $dark-separator; }
     &.logger-light { border-left: 1px solid $light-separator; }
+  }
+
+  .logger-btn-separator {
+    width: 1px;
+    height: 20px;
+    margin: 0 4px;
+    &.logger-dark { background-color: $dark-separator; }
+    &.logger-light { background-color: $light-separator; }
   }
 
   .logger-content {
@@ -374,7 +395,14 @@ $border-white: #ffffff;
     display: block;
     width: 100%;
 
-    .json-arrow { display: inline-flex; align-items: center; cursor: pointer; margin-right: 4px; user-select: none; vertical-align: top; }
+    .json-arrow { 
+      display: inline-block; 
+      cursor: pointer; 
+      margin-right: 4px; 
+      user-select: none; 
+      vertical-align: middle;
+      line-height: 1;
+    }
     .json-indent { margin-left: 16px; display: block; margin-top: 4px; margin-bottom: 4px; }
 
     &.logger-dark {
@@ -397,3 +425,4 @@ $border-white: #ffffff;
 
   .logger-logo { width: 96px; }
 }
+

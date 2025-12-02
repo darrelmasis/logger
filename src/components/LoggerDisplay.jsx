@@ -151,11 +151,26 @@ export const LoggerDisplay = () => {
     return savedTheme ? savedTheme === 'dark' : true
   })
   const [expandedLogIndex, setExpandedLogIndex] = useState(null)
+  const [copiedAll, setCopiedAll] = useState(false)
   const panelRef = useRef(null)
   const contentRef = useRef(null)
 
   // Agrupa logs para mostrar
   const groupedLogs = groupLogs(logs)
+
+  // Función para copiar todos los logs
+  const copyAllLogs = (e) => {
+    e.stopPropagation()
+    const allLogsText = logs.map((log) => {
+      const timestamp = formatTime(log.timestamp)
+      return `[${timestamp}] ${log.message}`
+    }).join('\n')
+    
+    navigator.clipboard.writeText(allLogsText).then(() => {
+      setCopiedAll(true)
+      setTimeout(() => setCopiedAll(false), 2000)
+    })
+  }
 
   useEffect(() => {
     if (isProd) return
@@ -249,16 +264,31 @@ export const LoggerDisplay = () => {
           <span>({groupedLogs.length})</span>
         </span>
         <div className="logger-buttons">
+          {/* Grupo 1: Acciones sobre contenido */}
+          <button
+            onClick={copyAllLogs}
+            disabled={logs.length === 0}
+            className={`logger-btn ${themeClass} ${logs.length === 0 ? 'logger-btn-disabled' : ''}`}
+            title={logs.length === 0 ? 'No hay logs para copiar' : 'Copiar todos los logs'}
+          >
+            {copiedAll ? <Icon name="check" size="sm" /> : <Icon name="copy" size="sm" />}
+          </button>
           <button
             onClick={(e) => {
               e.stopPropagation()
-              setIsPinned(!isPinned)
+              log.clear()
             }}
-            className={`logger-btn ${themeClass}`}
-            title={isPinned ? 'Desfijar panel' : 'Fijar panel'}
+            disabled={logs.length === 0}
+            className={`logger-btn logger-btn-clear ${themeClass} ${logs.length === 0 ? 'logger-btn-disabled' : ''}`}
+            title={logs.length === 0 ? 'No hay logs para limpiar' : 'Limpiar todos los logs'}
           >
-            {isPinned ? <Icon name="lock" size="sm" /> : <Icon name="lock-open" size="sm" />}
+            <Icon name="broom-wide" size="sm" />
           </button>
+
+          {/* Separador */}
+          <div className={`logger-btn-separator ${themeClass}`}></div>
+
+          {/* Grupo 2: Configuración de vista */}
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -272,15 +302,19 @@ export const LoggerDisplay = () => {
           <button
             onClick={(e) => {
               e.stopPropagation()
-              log.clear()
+              setIsPinned(!isPinned)
             }}
-            className={`logger-btn logger-btn-clear ${themeClass}`}
-            title="Limpiar todos los logs"
+            className={`logger-btn ${themeClass}`}
+            title={isPinned ? 'Desfijar panel' : 'Fijar panel'}
           >
-            <Icon name="broom-wide" size="sm" />
+            {isPinned ? <Icon name="lock" size="sm" /> : <Icon name="lock-open" size="sm" />}
           </button>
-          <div className={`logger-btn-minimize-container ${themeClass}`}>
-            <button
+
+          {/* Separador */}
+          <div className={`logger-btn-separator ${themeClass}`}></div>
+
+          {/* Grupo 3: Control de ventana */}
+          <button
             onClick={(e) => {
               e.stopPropagation()
               setIsExpanded(false)
@@ -290,7 +324,6 @@ export const LoggerDisplay = () => {
           >
             <Icon name="window-minimize" size="sm" />
           </button>
-          </div>
         </div>
       </div>
 

@@ -5,6 +5,42 @@ Todos los cambios notables de este proyecto serán documentados en este archivo.
 El formato está basado en [Keep a Changelog](https://keepachangelog.com/es/1.0.0/),
 y este proyecto adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
+## [0.4.6] - 2025-12-02
+
+### Agregado ✨
+- **Botón de copiar todos los logs**: Nuevo botón en el header que copia todos los logs al portapapeles
+  - Se deshabilita automáticamente cuando no hay logs
+  - Muestra ícono de confirmación al copiar exitosamente
+  - Formato: `[timestamp] [LEVEL] mensaje`
+
+### Mejorado 🚀
+- **Reorganización semántica de botones**: Botones agrupados lógicamente con separadores visuales
+  - Grupo 1: Acciones sobre contenido (Copiar, Limpiar)
+  - Grupo 2: Configuración de vista (Tema, Fijar)
+  - Grupo 3: Control de ventana (Minimizar)
+  - Separadores visuales entre grupos para mejor UX
+- **Tooltips nativos del navegador**: Todos los botones ahora muestran tooltips descriptivos
+  - Tooltips dinámicos según el estado del botón
+  - Configurados con `pointer-events: none` en iconos para permitir hover correcto
+- **Botón de limpiar mejorado**: Ahora se deshabilita cuando no hay logs
+  - Mismo comportamiento que el botón de copiar
+  - Tooltip dinámico según disponibilidad de logs
+
+### Corregido 🔧
+- **Alineación de flecha JSON**: Corregida alineación vertical de la flecha con el contenido colapsado
+  - Cambio de `vertical-align: top` a `vertical-align: middle`
+  - Mejor consistencia visual en objetos y arrays colapsados
+- **Duplicación de nivel en copiar**: Eliminada duplicación del nivel de log al copiar todos los logs
+  - Antes: `[14:59:12] [WARN] [WARN] mensaje`
+  - Ahora: `[14:59:12] [WARN] mensaje`
+- **Overflow del panel**: Cambiado de `hidden` a `visible` para permitir tooltips nativos
+  - Los tooltips del navegador ahora se muestran correctamente
+
+### Técnico 🔧
+- Agregada clase `.logger-btn-separator` para separadores visuales
+- Eliminado contenedor especial `.logger-btn-minimize-container`
+- Optimización de eventos de mouse con `pointer-events: none` en iconos
+
 ## [0.4.4] - 2025-11-25
 
 ### Mejorado 🚀
